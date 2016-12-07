@@ -22,13 +22,11 @@ PHP="5.6"
 ## Use a mirror for the files, these are directly from the main site. They're on a personal server with 1Gb connection
 MIRROR=true
 
-## Ports for Nginx server to listen on
-HTTP_PORT=444
+## Port for Nginx server to listen on
 HTTPS_PORT=888
 
 ## Locations for config files
 NGINXCONF="$GITHUB_URL/resources/nginx.conf"
-NGINX_VHOST="$GITHUB_URL/resources/rutorrent"
 NGINX_VHOST_SSL="$GITHUB_URL/resources/rutorrent_ssl"
 
 function GET_SERVER_IP {
@@ -118,9 +116,7 @@ echo "XML-RPC: $XMLRPC"
 echo "Nginx: latest mainline version"
 echo "PHP: $PHP"
 echo
-echo "Using"
-echo "HTTP Port: $HTTP_PORT"
-echo "HTTPS (SSL) Port: $HTTPS_PORT"
+echo "Using HTTPS Port: $HTTPS_PORT"
 echo
 echo "Tested on Debian 7/8 64-bit, probably works on Ubuntu with some changes to apt repositories"
 echo
