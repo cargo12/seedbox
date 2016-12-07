@@ -1,7 +1,7 @@
 language: bash
 
 before_script:
-    - curl -L "https://raw.githubusercontent.com/bbashy/seedbox/master/install > install_seedbox"
+    - curl -L https://raw.githubusercontent.com/bbashy/seedbox/master/install > install_seedbox
 
 script:
     - bash install_seedbox
