@@ -19,7 +19,7 @@ LIBTORRENT="0.13.6"
 XMLRPC="latest" # change this to "latest" for latest release
 PHP="5.6"
 
-## Use a mirror for the files, these are directly from the main site. They're on a personal server with 1Gb connection
+## Use a mirror for the files if the RTORRENT_DOMAIN is unconnectable.
 MIRROR=true
 
 ## Port for Nginx server to listen on
@@ -108,7 +108,7 @@ echo "This was made by Ben Sampson - bashy.im - check LICENSE.txt for details
 		|___/\___|\___|\__,_|_.__/ \___/_/\_\\
 
 -----------------------------------------------------------------------------"
-echo "This will install the following"
+echo "This will install the following;"
 echo
 echo "rTorrent: $RTORRENT"
 echo "LibTorrent: $LIBTORRENT"
