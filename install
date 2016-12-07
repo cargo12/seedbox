@@ -13,7 +13,7 @@ MIRROR_DOMAIN="https://bashy.im"
 
 ## CONFIGURATION
 RUTORRENT_GIT="https://github.com/Novik/ruTorrent.git"
-RTORRENT="0.9.4"
+RTORRENT="0.9.6"
 LIBTORRENT="0.13.6"
 ## XMLRPC="1.25.29" # works
 XMLRPC="latest" # change this to "latest" for latest release
