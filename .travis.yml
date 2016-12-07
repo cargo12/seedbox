@@ -1,7 +1,12 @@
+sudo: required
 language: bash
 
-before_script:
-    - curl -L https://raw.githubusercontent.com/bbashy/seedbox/master/install > install_seedbox
+services:
+  - docker
+
+before_install:
+    - docker pull debian/jessie
 
 script:
+    - curl -L https://raw.githubusercontent.com/bbashy/seedbox/master/install > install_seedbox
     - bash install_seedbox
