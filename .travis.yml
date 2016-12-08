@@ -9,7 +9,7 @@ before_install:
 
 script:
   - curl -L https://raw.githubusercontent.com/bbashy/seedbox/master/install > install_seedbox
-  - sudo bash install_seedbox
+  - cat "answers" | sudo bash install_seedbox
 
 notifications:
   email: false
