@@ -81,7 +81,7 @@ $C_WARNING
 $*
 ============= ERROR =============
 $C_END
-Help link: ${C_GREEN}https://bashy.im/seedbox$C_END
+Contact me: ${C_GREEN}https://bashy.im/about#contact$C_END
 EOF
 	exit 1
 }
@@ -118,21 +118,18 @@ echo "PHP: $PHP"
 echo
 echo "Using HTTPS Port: $HTTPS_PORT"
 echo
-echo "Tested on Debian 7/8 64-bit, probably works on Ubuntu with some changes to apt repositories"
+echo "Tested on Debian 8 (Jessie) 64-bit. Probably works on Ubuntu with some changes to apt repositories"
 echo
-echo "y = yes"
-echo "n = no, normally followed by another option"
-echo "c = cancel and exit script"
-echo "${C_MAGENTA}Capital 'Y/N/C' will act as default if you press enter$C_END"
+echo "y = answers yes (continues)"
+echo "n = answers no to normally followed by another option"
+echo "c = answers cancel to exit script"
+echo "${C_MAGENTA}Capital 'Y/N/C' means the default action if you just press enter$C_END"
 echo
-read -p "${C_GREEN}Do you want to continue? [Y/c]$C_END " confirm </dev/tty
-case "$confirm" in
-	c|C|cancel)
-		exit 1
-		;;
-	y|Y|yes|*)
-		;;
-esac
+read -p "${C_GREEN}Do you want to continue? [Y/n/c]$C_END " confirm
+if [[ $confirm =~ ^([cC]|[nN])$ ]]
+then
+    exit 0
+fi
 
 ## Generate locales
 locale-gen en_GB en_GB.UTF-8
@@ -147,17 +144,15 @@ while [ $con -eq 0 ]; do
 	if [ -z "$USER" ]; then
 		echo "${C_WARNING}Error: You must enter a system user!!$C_END"
 	elif [ -z $(cat /etc/passwd | grep "^$USER:") ]; then
-		read -p "${C_GREEN}This user ($USER) does not exist, would you like to create it? [Y/n/c]$C_END " confirm </dev/tty
-		case "$confirm" in
-			y|Y|yes|*)
-				adduser $USER;
-				con=1
-				HOMEDIR=$(cat /etc/passwd | grep "$USER": | cut -d: -f6);
-				;;
-			c|C|cancel)
-				exit 1
-				;;
-		esac
+		read -p "${C_GREEN}Selected user ($USER) does not exist, would you like to create it? [Y/n/c]$C_END " confirm
+		if [[ $confirm =~ ^([nN]|[cC])$ ]]
+        then
+            exit 1
+        else
+			adduser $USER;
+			con=1
+			HOMEDIR=$(cat /etc/passwd | grep "$USER": | cut -d: -f6);
+		fi
 	elif [ $(cat /etc/passwd | grep "^$USER:" | cut -d: -f3) -lt 999 ]; then
 		echo "${C_WARNING}Error: That user's UID is too low!$C_END"
 	elif [ $USER = nobody ]; then
@@ -337,24 +332,6 @@ htpasswd -c /home/${USER}/rutorrent_passwords $USER
 echo
 mkdir -vp /etc/nginx/{ssl,sites-available,sites-enabled}
 
-## Check if we want HTTP or HTTPS as well
-read -p "${C_RED}Please confirm which option you want to continue with$C_END
-1) Only HTTP
-2) Only HTTPS
-3) Both HTTP and HTTPS$C_END
- " options </dev/tty
-case "$options" in
-	1)
-		protocol='http'
-		;;
-	2)
-		protocol='https'
-		;;
-	3)
-		protocol='both'
-		;;
-esac
-
 ## Output virtual host data into Nginx folder
 function create_nginx_config {
 	curl -Ls $NGINXCONF | sed -e "s/\###WEB_USER###/${WEB_USER}/"
@@ -362,18 +339,12 @@ function create_nginx_config {
 
 ## Output virtual host data into Nginx folder
 function CREATE_NGINX_VHOSTS {
-	vhost1=curl -Ls $NGINX_VHOST |
-	sed -e "s/\###HOSTNAME###/${HOSTNAME}/" |
-	sed -e "s/\###WEB_USER###/${WEB_USER}/" |
-	sed -e "s/\###USER###/${USER}/"
-
-	vhost2=$(curl -Ls $NGINX_VHOST_SSL |
+	vhost=$(curl -Ls $NGINX_VHOST_SSL |
 	sed -e "s/\###HOSTNAME###/${HOSTNAME}/" |
 	sed -e "s/\###WEB_USER###/${WEB_USER}/" |
 	sed -e "s/\###USER###/${USER}/")
 
-	vhost1 > /etc/nginx/sites-available/rutorrent
-	vhost2 > /etc/nginx/sites-available/rutorrent_ssl
+	vhost > /etc/nginx/sites-available/rutorrent_ssl
 }
 
 create_nginx_config > /etc/nginx/nginx.conf
