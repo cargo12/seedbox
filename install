@@ -17,7 +17,7 @@ RTORRENT="0.9.6"
 LIBTORRENT="0.13.6"
 ## XMLRPC="1.25.29" # works
 XMLRPC="latest" # change this to "latest" for latest release
-PHP="5.6"
+PHP="7.0"
 
 ## Use a mirror for the files if the RTORRENT_DOMAIN is unconnectable.
 MIRROR=true
@@ -230,6 +230,7 @@ libtool libssl-dev libsigc++-2.0-dev zlib1g-dev libcurl4-openssl-dev libncurses5
 
 ## Add Nginx and PHP repositories
 add-apt-repository "deb http://nginx.org/packages/mainline/debian/ jessie nginx"
+add-apt-repository "deb http://packages.dotdeb.org jessie all"
 
 ## Setup Nginx for our web server
 curl -LO http://nginx.org/keys/nginx_signing.key
@@ -319,7 +320,7 @@ sed -i "s/;listen\.group.*/listen.group = nginx/" /etc/php5/fpm/pool.d/www.conf
 # sed -i "s/;listen\.mode.*/listen.mode = 0660/" /etc/php5/fpm/pool.d/www.conf
 
 ## Add the newly created webserveruser to nginx
-usermod -a -G www-data $WEB_USER
+usermod -a -G nginx $WEB_USER
 id $WEB_USER
 groups $WEB_USER
 
@@ -349,9 +350,9 @@ function CREATE_NGINX_VHOSTS {
 
 create_nginx_config > /etc/nginx/nginx.conf
 
-## Restart Nginx and php5-fpm
+## Restart Nginx and php-fpm
 service nginx restart
-service php5-fpm restart
+service php7.0-fpm restart
 
 GET_SERVER_IP
 
