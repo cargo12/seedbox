@@ -1,5 +1,7 @@
 ## Seedbox install script for Debian 7/8 64-bit - clean install
 
+![Travis CI](https://travis-ci.org/bbashy/seedbox.svg?branch=master)
+
 #### Not yet ready for production/live server
 
 ## Install
