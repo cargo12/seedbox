@@ -1,11 +1,11 @@
-## Seedbox install script for Debian 7/8 64-bit - clean install
+## Seedbox install script for Debian 8 (Jessie) 64-bit - clean install
 
 ![Travis CI](https://travis-ci.org/bbashy/seedbox.svg?branch=master)
 
-#### Not yet ready for production/live server
+#### Not yet ready for use
 
 ## Install
-Make sure you have sudo installed already. `sudo -V` if not, install: `apt-get install sudo`
+Make sure you have sudo installed already. `sudo -V` if not, install: `apt-get install sudo` as root.
 First download the script to your machine. The Droplr link will always go to the master branch (install file).
 You're welcome to check the redirect yourself. It's a simple URL shortener.
 ```
@@ -15,20 +15,14 @@ You're welcome to check the redirect yourself. It's a simple URL shortener.
 # wget
 └> wget -O install_seedbox https://d.pr/1kfR4
 ```
-Then to install
+Then to install (check the contents before using sudo on a downloaded script).
 ```
 chmod +x install_seedbox
 sudo ./install_seedbox
 ```
 
-### My back story
-This base script has been put together by me (bbashy) using my knowledge in setting up rTorrent/libTorrent/ruTorrent as well as the Linux OS.
-I try to use the latest versions for things, many other scripts use Apache, which is fine... I just prefer Nginx. I run the exact same setup myself
-and it runs perfectly, I seed every version of Mint, Debian, Ubuntu and Arch Linux OSs in TBs.
-
 ### Notice
-I do not know much bash scripting but I'm testing this script heavily so it will be pretty stable. If you see something wrong or a part that
-could be done better, please let me know in the issues or open a pull request fixing it (please explain the problem and how it makes it better).
+I've got a good understanding of bash/shell scripting and I'm testing this script heavily so it will be pretty stable once ready. If you see something wrong or a part that could be improved, please let me know in the issues or open a pull request fixing it (please explain the problem and how it improves it).
 
 ### Important
-I do not take responsibility if this script causes any system errors, loss of data or problems with your server or machine.
+Although this is tested and doesn't do anything dangerous - I do not take responsibility if this script causes any system errors, loss of data or problems with your server or machine.
