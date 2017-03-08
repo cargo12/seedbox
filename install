@@ -133,7 +133,7 @@ then
 fi
 
 ## Generate locales
-locale-gen en_GB en_GB.UTF-8
+#locale-gen en_GB en_GB.UTF-8
 # dpkg-reconfigure locales
 
 ## Prompting for system user.
