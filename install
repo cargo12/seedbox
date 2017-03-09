@@ -369,6 +369,4 @@ echo "Check Nginx is working by going to your server's IP address followed by po
 echo "${C_CYAN}IP: $SERVER_IP:$HTTP_PORT$C_END"
 echo "${C_CYAN}IP: $SERVER_IP:$HTTPS_PORT$C_END"
 echo
-echo "If you wish to disable HTTP, please remove the server block containing the non-SSL section from /etc/nginx/sites-available/rutorrent file"
-echo
 echo "${C_MAGENTA}Seedboxes done the right way -- https://bashy.im$C_END"
