@@ -10,10 +10,10 @@ First download the script to your machine. The Droplr link will always go to the
 You're welcome to check the redirect yourself. It's a simple URL shortener.
 ```
 # curl
-└> curl -L https://d.pr/1kfR4 > install_seedbox
+└> curl -L https://raw.githubusercontent.com/bbashy/seedbox/master/install > install_seedbox
 
 # wget
-└> wget -O install_seedbox https://d.pr/1kfR4
+└> wget -O install_seedbox https://raw.githubusercontent.com/bbashy/seedbox/master/install
 ```
 Then to install (check the contents before using sudo on a downloaded script).
 ```
