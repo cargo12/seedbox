@@ -19,7 +19,7 @@ RUTORRENT_GIT="https://github.com/Novik/ruTorrent.git"
 RTORRENT="0.9.6"
 LIBTORRENT="0.13.6"
 XMLRPC="1.39.11" # 1.25.29 also worked. Can also use "latest"
-PHP="7.1"
+PHP="7.3"
 
 ## Port for nginx to listen on
 HTTPS_PORT=888
@@ -30,10 +30,6 @@ NGINX_VHOST_SSL="$GITHUB_URL/resources/rutorrent.conf"
 
 ## Temp path for downloads and extractions
 TEMP_PATH="/tmp/bbashy-seedbox"
-
-function GET_SERVER_IP {
-    SERVER_IP="$(curl -Ls https://bashy.im/ip)"
-}
 
 function MAKE_TEMP_PATH {
 	mkdir -vp TEMP_PATH
@@ -245,7 +241,7 @@ apt-key add nginx_signing.key
 rm nginx_signing.key
 
 apt update
-apt install -y nginx php7.1-fpm php7.1-curl php7.1-cli php7.1-mcrypt php7.1
+apt install -y nginx php7.3-fpm php7.3-curl php7.3-cli php7.3-mcrypt php7.3
 
 ## Download library and client with possible mirror which is settable at the top of this file
 MAKE_TEMP_PATH && cd $TEMP_PATH
@@ -312,18 +308,18 @@ esac
 su - $WEB_USER -c "mkdir sites logs && cd sites && git clone $RUTORRENT_GIT rutorrent"
 
 ## Modify php.ini for larger file uploads (torrents)
-sed -i -e '/memory_limit =/ s/= .*/= 256M/' /etc/php/7.1/fpm/php.ini # Possibly change this higher/lower.
-sed -i -e '/post_max_size =/ s/= .*/= 125M/' /etc/php/7.1/fpm/php.ini
-sed -i -e '/upload_max_filesize =/ s/= .*/= 100M/' /etc/php/7.1/fpm/php.ini
-sed -i -e 's/;date.timezone.*/date.timezone = UTC/' /etc/php/7.1/fpm/php.ini
-sed -i -e 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php/7.1/fpm/php.ini
+sed -i -e '/memory_limit =/ s/= .*/= 256M/' /etc/php/7.3/fpm/php.ini # Possibly change this higher/lower.
+sed -i -e '/post_max_size =/ s/= .*/= 125M/' /etc/php/7.3/fpm/php.ini
+sed -i -e '/upload_max_filesize =/ s/= .*/= 100M/' /etc/php/7.3/fpm/php.ini
+sed -i -e 's/;date.timezone.*/date.timezone = UTC/' /etc/php/7.3/fpm/php.ini
+sed -i -e 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php/7.3/fpm/php.ini
 
-# sed -i "s/user = www-data/user = nginx/" /etc/php/7.1/fpm/pool.d/www.conf
-# sed -i "s/group = www-data/group = nginx/" /etc/php/7.1/fpm/pool.d/www.conf
-sed -i "s/;listen\.owner.*/listen.owner = nginx/" /etc/php/7.1/fpm/pool.d/www.conf
-sed -i "s/;listen\.group.*/listen.group = nginx/" /etc/php/7.1/fpm/pool.d/www.conf
+# sed -i "s/user = www-data/user = nginx/" /etc/php/7.3/fpm/pool.d/www.conf
+# sed -i "s/group = www-data/group = nginx/" /etc/php/7.3/fpm/pool.d/www.conf
+sed -i "s/;listen\.owner.*/listen.owner = nginx/" /etc/php/7.3/fpm/pool.d/www.conf
+sed -i "s/;listen\.group.*/listen.group = nginx/" /etc/php/7.3/fpm/pool.d/www.conf
 ## The following is not required but might depending on OS setup
-# sed -i "s/;listen\.mode.*/listen.mode = 0660/" /etc/php5/fpm/pool.d/www.conf
+# sed -i "s/;listen\.mode.*/listen.mode = 0660/" /etc/php/7.3/fpm/pool.d/www.conf
 
 ## Add the newly created webserveruser to nginx
 usermod -a -G nginx $WEB_USER
@@ -358,15 +354,14 @@ create_nginx_config > /etc/nginx/nginx.conf
 
 ## Restart Nginx and php-fpm
 service nginx restart
-service php7.1-fpm restart
+service php7.3-fpm restart
 
-GET_SERVER_IP
 
 echo
 echo "${C_GREEN}Installation is complete... LOL, yeah right...$C_END"
 echo
-echo "Check Nginx is working by going to your server's IP address followed by port $HTTP_PORT or $HTTPS_PORT (SSL)"
-echo "${C_CYAN}IP: $SERVER_IP:$HTTP_PORT$C_END"
-echo "${C_CYAN}IP: $SERVER_IP:$HTTPS_PORT$C_END"
+echo "Check Nginx is working by going to your server's IP address followed by port $HTTP_PORT or $HTTPS_PORT (TLS)"
+echo "${C_CYAN}URL: yourip:$HTTP_PORT$C_END"
+echo "${C_CYAN}URL: yourip:$HTTPS_PORT$C_END"
 echo
 echo "${C_MAGENTA}Seedboxes done the right way -- https://bashy.im$C_END"
