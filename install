@@ -7,12 +7,8 @@ GITHUB_REPO="seedbox"
 GITHUB_BRANCH="master"
 GITHUB_URL="https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/${GITHUB_BRANCH}"
 
-## RTORRENT DOMAINS
-RTORRENT_DOMAIN="http://rtorrent.net/downloads"
-MIRROR_DOMAIN="https://bashy.im"
-
-## Use MIRROR_DOMAIN for the rTorrent/libTorrent files.
-MIRROR=true
+## RTORRENT DOWNLOAD URL
+RTORRENT_DOWNLOADS="https://rtorrent.net/downloads"
 
 ## CONFIGURATION
 RUTORRENT_GIT="https://github.com/Novik/ruTorrent.git"
@@ -246,24 +242,13 @@ apt install -y nginx php7.3-fpm php7.3-curl php7.3-cli php7.3-mcrypt php7.3
 ## Download library and client with possible mirror which is settable at the top of this file
 MAKE_TEMP_PATH && cd $TEMP_PATH
 
-if [ $MIRROR = true ]; then
-	## libTorrent
-	curl -LO $MIRROR_DOMAIN/o/libtorrent-$LIBTORRENT.tar.gz
-	## rTorrent
-	curl -LO $MIRROR_DOMAIN/o/rtorrent-$RTORRENT.tar.gz
-else
-	## libTorrent
-	curl -LO $RTORRENT_DOMAIN/downloads/libtorrent-$LIBTORRENT.tar.gz
-	## rTorrent
-	curl -LO $RTORRENT_DOMAIN/downloads/rtorrent-$RTORRENT.tar.gz
-fi
+## libTorrent
+curl -LO $RTORRENT_DOWNLOADS/libtorrent-$LIBTORRENT.tar.gz
+## rTorrent
+curl -LO $RTORRENT_DOWNLOADS/rtorrent-$RTORRENT.tar.gz
 
 ## XMLRPC
-if [ $XMLRPC = "latest" ]; then
-	curl -L http://sourceforge.net/projects/xmlrpc-c/files/latest/download -o xmlrpc-c-latest.tar.gz
-else
-	curl -LO $MIRROR_DOMAIN/o/xmlrpc-c-$XMLRPC.tar.gz
-fi
+curl -L http://sourceforge.net/projects/xmlrpc-c/files/latest/download -o xmlrpc-c-$XMLRPC.tar.gz
 
 ## Extract libraries
 tar -zxvf libtorrent-$LIBTORRENT.tar.gz
